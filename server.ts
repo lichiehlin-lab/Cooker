@@ -399,9 +399,38 @@ app.post('/api/ai/swap', async (req, res) => {
 async function startServer() {
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: {
+        middlewareMode: true,
+        hmr: false,
+        watch: null,
+      },
       appType: 'spa',
     });
+
+    // Prevent @vite/client from throwing WebSocket connection errors in the preview environment
+    app.use((req, res, next) => {
+      if (req.url && req.url.startsWith('/@vite/client')) {
+        const origEnd = res.end.bind(res);
+        const chunks: Buffer[] = [];
+        res.write = ((chunk: any) => {
+          chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(String(chunk)));
+          return true;
+        }) as any;
+        res.end = ((chunk?: any) => {
+          if (chunk) {
+            chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(String(chunk)));
+          }
+          const body = Buffer.concat(chunks).toString('utf-8');
+          const wsShim = `const WebSocket = class { constructor() { this.readyState = 1; } addEventListener() {} removeEventListener() {} send() {} close() {} };\n`;
+          const patched = wsShim + body;
+          res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+          res.removeHeader('Content-Length');
+          return origEnd(patched, 'utf-8');
+        }) as any;
+      }
+      next();
+    });
+
     app.use(vite.middlewares);
   } else {
     const distPath = path.resolve(process.cwd(), 'dist');

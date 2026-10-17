@@ -1,0 +1,6 @@
+{
+  "name": "冰箱好料理",
+  "description": "把冰箱裡的食材，變成今天的好料理。拍照盤點食材，依你的設備與口味推薦家常食譜，煮完確認實際用量並更新庫存。",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

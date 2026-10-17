@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-canvas: #FAF7F2;
+    --bg-surface: #FFFFFF;
+    --bg-surface-warm: #F4E8DB;
+    --color-primary: #A8462D;
+    --color-primary-hover: #8D3824;
+    --color-primary-soft: #F8E6DF;
+    --color-secondary: #52603C;
+    --color-secondary-soft: #EAF0E3;
+    --text-primary: #2E2925;
+    --text-secondary: #655A50;
+    --border-decorative: #DED3C7;
+    --border-control: #88796B;
+    --color-warning: #835300;
+    --color-warning-soft: #FFF1D6;
+    --color-danger: #B42318;
+    --color-danger-soft: #FEECE8;
+    --color-focus: #325B80;
+  }
+
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    background-color: #FAF7F2;
+    color: #2E2925;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+
+  /* Focus ring accessibility according to Section 3.1 & Section 8 */
+  *:focus-visible {
+    outline: 3px solid #325B80;
+    outline-offset: 2px;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-family: "JetBrains Mono", "Noto Sans TC", monospace;
+}
+
+.card-shadow {
+  box-shadow: 0 8px 24px rgba(69, 43, 27, 0.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
